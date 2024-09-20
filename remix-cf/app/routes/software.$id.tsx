@@ -1,18 +1,45 @@
 import { useParams, Link } from "@remix-run/react";
 
-export default function SoftwareDetail() {
-  const { id } = useParams();
-  // 这里应该根据id获取软件详情，现在我们使用模拟数据
-  const software = {
-    title: `软件${id}`,
+const softwareData = {
+  "1": {
+    title: "软件1",
     description: "这是一款功能强大的软件，可以帮助用户提高工作效率。",
     features: [
-      "特性1：...",
-      "特性2：...",
-      "特性3：...",
+      "特性1：自动化工作流程",
+      "特性2：智能数据分析",
+      "特性3：实时协作功能",
     ],
     downloadLink: "#"
-  };
+  },
+  "2": {
+    title: "软件2",
+    description: "软件2是一款适用于各种场景的强大工具。",
+    features: [
+      "特性1：跨平台兼容",
+      "特性2：高度可定制",
+      "特性3：安全加密",
+    ],
+    downloadLink: "#"
+  },
+  "3": {
+    title: "软件3",
+    description: "软件3为用户提供了创新的解决方案。",
+    features: [
+      "特性1：人工智能辅助",
+      "特性2：云端同步",
+      "特性3：直观的用户界面",
+    ],
+    downloadLink: "#"
+  }
+};
+
+export default function SoftwareDetail() {
+  const { id } = useParams();
+  const software = softwareData[id as keyof typeof softwareData];
+
+  if (!software) {
+    return <div>软件不存在</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">

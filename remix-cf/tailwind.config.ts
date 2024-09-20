@@ -9,7 +9,7 @@ export default {
         secondary: '#10B981',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
     },
   },
