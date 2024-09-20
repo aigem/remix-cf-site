@@ -8,7 +8,7 @@ import {
   Link
 } from "@remix-run/react";
 import { LinksFunction } from "@remix-run/cloudflare";
-import tailwindStyles from "./styles/tailwind.css";
+import tailwindStyles from "./styles/tailwind.css?url";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
