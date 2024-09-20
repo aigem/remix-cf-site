@@ -10,7 +10,7 @@ import { LinksFunction } from "@remix-run/cloudflare";
 import tailwindStyles from "./styles/tailwind.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
+  { rel: "stylesheet", href: tailwindStyles },
 ];
 
 export default function App() {
