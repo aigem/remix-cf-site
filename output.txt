@@ -1,0 +1,482 @@
+文件名：remix-cf/app/root.tsx
+文件内容：
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "@remix-run/react";
+import { LinksFunction } from "@remix-run/cloudflare";
+import tailwindStyles from "./styles/tailwind.css";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: tailwindStyles },
+];
+
+export default function App() {
+  return (
+    <html lang="zh">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body className="bg-gray-100">
+        <nav className="bg-white shadow-md">
+          <div className="container mx-auto px-4 py-4">
+            <a href="/" className="text-2xl font-bold text-blue-500">
+              软件展示网站
+            </a>
+          </div>
+        </nav>
+        <Outlet />
+        <footer className="bg-gray-800 text-white py-4 mt-8">
+          <div className="container mx-auto px-4 text-center">
+            &copy; 2024 软件展示网站. 保留所有权利。
+          </div>
+        </footer>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
+}
+
+文件名：remix-cf/app/styles/tailwind.css
+文件内容：
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+文件名：remix-cf/app/routes/software.$id.tsx
+文件内容：
+import { useParams, Link } from "@remix-run/react";
+
+const softwareData = {
+  "1": {
+    title: "软件1",
+    description: "这是一款功能强大的软件，可以帮助用户提高工作效率。",
+    features: [
+      "特性1：自动化工作流程",
+      "特性2：智能数据分析",
+      "特性3：实时协作功能",
+    ],
+    downloadLink: "#"
+  },
+  "2": {
+    title: "软件2",
+    description: "软件2是一款适用于各种场景的强大工具。",
+    features: [
+      "特性1：跨平台兼容",
+      "特性2：高度可定制",
+      "特性3：安全加密",
+    ],
+    downloadLink: "#"
+  },
+  "3": {
+    title: "软件3",
+    description: "软件3为用户提供了创新的解决方案。",
+    features: [
+      "特性1：人工智能辅助",
+      "特性2：云端同步",
+      "特性3：直观的用户界面",
+    ],
+    downloadLink: "#"
+  }
+};
+
+export default function SoftwareDetail() {
+  const { id } = useParams();
+  const software = softwareData[id as keyof typeof softwareData];
+
+  if (!software) {
+    return <div>软件不存在</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Link to="/" className="text-blue-500 hover:underline mb-4 inline-block">
+        &larr; 返回首页
+      </Link>
+      <h1 className="text-4xl font-bold mb-6">{software.title}</h1>
+      <p className="text-xl mb-6">{software.description}</p>
+      <h2 className="text-2xl font-semibold mb-4">主要特性</h2>
+      <ul className="list-disc list-inside mb-6">
+        {software.features.map((feature, index) => (
+          <li key={index} className="mb-2">{feature}</li>
+        ))}
+      </ul>
+      <a 
+        href={software.downloadLink} 
+        className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+      >
+        下载软件
+      </a>
+    </div>
+  );
+}
+
+文件名：remix-cf/app/components/SoftwareCard.tsx
+文件内容：
+import { Link } from "@remix-run/react";
+
+interface SoftwareCardProps {
+  title: string;
+  description: string;
+  link: string;
+}
+
+export function SoftwareCard({ title, description, link }: SoftwareCardProps) {
+  return (
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+      <div className="p-6">
+        <h2 className="text-2xl font-semibold mb-2">{title}</h2>
+        <p className="text-gray-600 mb-4">{description}</p>
+        <Link to={link} className="text-blue-500 hover:underline">
+          了解更多
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+文件名：remix-cf/tailwind.config.ts
+文件内容：
+import type { Config } from 'tailwindcss'
+
+export default {
+  content: ['./app/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#3B82F6',
+        secondary: '#10B981',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config
+
+文件名：remix-cf/README.md
+文件内容：
+# Welcome to Remix + Cloudflare!
+
+- 📖 [Remix docs](https://remix.run/docs)
+- 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
+
+## Development
+
+Run the dev server:
+
+```sh
+npm run dev
+```
+
+To run Wrangler:
+
+```sh
+npm run build
+npm run start
+```
+
+## Typegen
+
+Generate types for your Cloudflare bindings in `wrangler.toml`:
+
+```sh
+npm run typegen
+```
+
+You will need to rerun typegen whenever you make changes to `wrangler.toml`.
+
+## Deployment
+
+First, build your app for production:
+
+```sh
+npm run build
+```
+
+Then, deploy your app to Cloudflare Pages:
+
+```sh
+npm run deploy
+```
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+
+
+文件名：remix-cf/tsconfig.json
+文件内容：
+{
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.server/**/*.ts",
+    "**/.server/**/*.tsx",
+    "**/.client/**/*.ts",
+    "**/.client/**/*.tsx"
+  ],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["@remix-run/cloudflare", "vite/client"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "target": "ES2022",
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./app/*"]
+    },
+
+    // Vite takes care of building everything, not tsc.
+    "noEmit": true
+  }
+}
+
+
+文件名：remix-cf/postcss.config.js
+文件内容：
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+
+文件名：remix-cf/.eslintrc.cjs
+文件内容：
+/**
+ * This is intended to be a basic starting point for linting in your app.
+ * It relies on recommended configs out of the box for simplicity, but you can
+ * and should modify this configuration to best suit your team's needs.
+ */
+
+/** @type {import('eslint').Linter.Config} */
+module.exports = {
+  root: true,
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
+  },
+  ignorePatterns: ["!**/.server", "!**/.client"],
+
+  // Base config
+  extends: ["eslint:recommended"],
+
+  overrides: [
+    // React
+    {
+      files: ["**/*.{js,jsx,ts,tsx}"],
+      plugins: ["react", "jsx-a11y"],
+      extends: [
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
+        "plugin:jsx-a11y/recommended",
+      ],
+      settings: {
+        react: {
+          version: "detect",
+        },
+        formComponents: ["Form"],
+        linkComponents: [
+          { name: "Link", linkAttribute: "to" },
+          { name: "NavLink", linkAttribute: "to" },
+        ],
+        "import/resolver": {
+          typescript: {},
+        },
+      },
+    },
+
+    // Typescript
+    {
+      files: ["**/*.{ts,tsx}"],
+      plugins: ["@typescript-eslint", "import"],
+      parser: "@typescript-eslint/parser",
+      settings: {
+        "import/internal-regex": "^~/",
+        "import/resolver": {
+          node: {
+            extensions: [".ts", ".tsx"],
+          },
+          typescript: {
+            alwaysTryTypes: true,
+          },
+        },
+      },
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+      ],
+    },
+
+    // Node
+    {
+      files: [".eslintrc.cjs"],
+      env: {
+        node: true,
+      },
+    },
+  ],
+};
+
+
+文件名：remix-cf/package.json
+文件内容：
+{
+  "name": "remix-cf",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "build": "remix vite:build",
+    "deploy": "wrangler pages deploy ./build/client",
+    "dev": "remix vite:dev",
+    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "start": "wrangler pages dev ./build/client",
+    "typecheck": "tsc",
+    "typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@remix-run/cloudflare": "^2.12.1",
+    "@remix-run/cloudflare-pages": "^2.12.1",
+    "@remix-run/react": "^2.12.1",
+    "isbot": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240512.0",
+    "@remix-run/dev": "^2.12.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.38.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.1.6",
+    "vite": "^5.1.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "wrangler": "3.78.7"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+
+文件名：remix-cf/.gitignore
+文件内容：
+node_modules
+
+/.cache
+/build
+.env
+.dev.vars
+
+.wrangler
+
+
+文件名：remix-cf/vite.config.ts
+文件内容：
+import {
+  vitePlugin as remix,
+  cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
+} from "@remix-run/dev";
+import { defineConfig } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
+
+export default defineConfig({
+  plugins: [
+    remixCloudflareDevProxy(),
+    remix({
+      future: {
+        v3_fetcherPersist: true,
+        v3_relativeSplatPath: true,
+        v3_throwAbortReason: true,
+      },
+    }),
+    tsconfigPaths(),
+  ],
+});
+
+
+文件名：remix-cf/functions/[[path]].ts
+文件内容：
+import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - the server build file is generated by `remix vite:build`
+// eslint-disable-next-line import/no-unresolved
+import * as build from "../build/server";
+
+export const onRequest = createPagesFunctionHandler({ build });
+
+
+文件名：remix-cf/worker-configuration.d.ts
+文件内容：
+// Generated by Wrangler by running `wrangler types`
+
+interface Env {
+}
+
+
+文件名：remix-cf/load-context.ts
+文件内容：
+import { type PlatformProxy } from "wrangler";
+
+// When using `wrangler.toml` to configure bindings,
+// `wrangler types` will generate types for those bindings
+// into the global `Env` interface.
+// Need this empty interface so that typechecking passes
+// even if no `wrangler.toml` exists.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Env {}
+
+type Cloudflare = Omit<PlatformProxy<Env>, "dispose">;
+
+declare module "@remix-run/cloudflare" {
+  interface AppLoadContext {
+    cloudflare: Cloudflare;
+  }
+}
+
+
+文件名：remix-cf/wrangler.toml
+文件内容：
+name = "remix-cf"
+
