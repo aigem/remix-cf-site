@@ -12,8 +12,7 @@ interface SoftwareCardProps {
 
 export function SoftwareCard({ id, title, description, icon }: SoftwareCardProps) {
   return (
-    <Link
-      to={`${CONFIG.PATHS.SOFTWARE}/${id}`}
+    <Link to={`/software/${software.id}`}
       aria-label={`了解更多关于${title}的信息`}
       className="block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
     >

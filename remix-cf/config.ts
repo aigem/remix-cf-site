@@ -37,5 +37,9 @@ export const CONFIG = {
     PATHS: {
         ASSETS: "/assets",
         ICONS: "/icons",
+        HOME: "/",
+        ABOUT: "/about",
+        CONTACT: "/contact",
+        SOFTWARE: "/software",
     },
 };
