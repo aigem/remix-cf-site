@@ -31,8 +31,6 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 };
 
-// ... 其余代码保持不变
-
 export default function SoftwareDetail() {
   const software = useLoaderData<Software>();
   const navigation = useNavigation();
