@@ -20,10 +20,11 @@ export const loader: LoaderFunction = async ({ params }) => {
     const response = await fetch(`${CONFIG.API_BASE_URL}/software/${params.id}`);
     if (!response.ok) {
       console.error(`API请求失败，状态码: ${response.status}`);
-      if (response.status === 404) {
-        throw new Response("软件未找到", { status: 404 });
-      }
-      throw new Error(`API request failed with status ${response.status}`);
+      const errorData = await response.json();
+      throw new Response(JSON.stringify(errorData), {
+        status: response.status,
+        headers: { "Content-Type": "application/json" },
+      });
     }
     const data = await response.json();
     console.log(`成功获取软件 ${params.id} 的数据`, data);
@@ -33,7 +34,10 @@ export const loader: LoaderFunction = async ({ params }) => {
     if (error instanceof Response) {
       throw error;
     }
-    throw new Response("获取软件数据时出错", { status: 500 });
+    throw new Response(JSON.stringify({ error: "获取软件数据时出错" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
 

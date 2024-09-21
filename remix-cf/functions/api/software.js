@@ -44,7 +44,7 @@ export async function onRequest(context) {
         });
     } else if (path.startsWith('/api/software/')) {
         const id = path.split('/').pop();
-        const software = softwareData.find(s => String(s.id) === String(id));
+        const software = softwareData.find(s => s.id === id);
         if (software) {
             return new Response(JSON.stringify(software), {
                 headers: { "Content-Type": "application/json" },
@@ -55,10 +55,4 @@ export async function onRequest(context) {
                 headers: { "Content-Type": "application/json" },
             });
         }
-    } else {
-        return new Response(JSON.stringify({ error: "Invalid API route" }), {
-            status: 404,
-            headers: { "Content-Type": "application/json" },
-        });
     }
-}
