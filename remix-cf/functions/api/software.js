@@ -25,15 +25,7 @@ export async function onRequest(context) {
             downloadLink: "https://example.com/download/13"
         },
         {
-            id: "1",
-            title: "软件4",
-            description: "这是软件1的详细描述...",
-            icon: "/icons/software4.svg",
-            features: ["特性14", "特性24", "特性34"],
-            downloadLink: "https://example.com/download/14"
-        },
-        {
-            id: "1",
+            id: "5",
             title: "软件5",
             description: "这是软件1的详细描述...",
             icon: "/icons/software5.svg",
