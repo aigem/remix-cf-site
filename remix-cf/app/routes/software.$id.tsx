@@ -27,15 +27,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     return json(data);
   } catch (error) {
     console.error('Error fetching software data:', error);
-    // 返回模拟数据作为后备方案
-    return json({
-      id: params.id,
-      title: `软件 ${params.id}`,
-      description: "这是一个示例软件描述。由于无法从API获取数据，我们显示了这个后备信息。",
-      icon: "/icons/default-software.svg",
-      features: ["特性1", "特性2", "特性3"],
-      downloadLink: "#"
-    });
+    throw new Response("软件未找到", { status: 404 });
   }
 };
 
