@@ -13,15 +13,17 @@ interface Software {
 
 export const loader: LoaderFunction = async ({ context }) => {
   try {
-    const { env } = context.cloudflare;
+    const { env, log } = context.cloudflare;
+    log("开始获取软件数据");
     const response = await fetch(`${CONFIG.API_BASE_URL}/api/software`);
     if (!response.ok) {
       throw new Error(`API请求失败，状态码: ${response.status}`);
     }
     const data = await response.json();
+    log("成功获取软件数据", { count: data.length });
     return json(data);
   } catch (error) {
-    console.error('获取软件数据时出错:', error);
+    context.cloudflare.log('获取软件数据时出错:', { error: error.message });
     // 返回模拟数据作为后备方案
     return json([
       { id: "1", title: "软件1", description: "这是一款功能强大的软件，可以帮助用户提高工作效率。", icon: "/icons/software1.svg" },
