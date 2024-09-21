@@ -14,11 +14,14 @@ interface Software {
 export const loader: LoaderFunction = async ({ context }) => {
   try {
     const { env } = context.cloudflare;
-    const response = await fetch(`${CONFIG.API_BASE_URL}/api/software`);
+    console.log('开始获取软件数据');
+    const response = await fetch(`${CONFIG.API_BASE_URL}/software`);
     if (!response.ok) {
+      console.error(`API请求失败，状态码: ${response.status}`);
       throw new Error(`API请求失败，状态码: ${response.status}`);
     }
     const data = await response.json();
+    console.log('成功获取软件数据', { count: data.length });
     return json(data);
   } catch (error) {
     console.error('获取软件数据时出错:', error);
@@ -30,6 +33,8 @@ export const loader: LoaderFunction = async ({ context }) => {
     ]);
   }
 };
+
+// ... 其余代码保持不变
 
 export default function Index() {
   const softwareList = useLoaderData<Software[]>();

@@ -16,11 +16,15 @@ interface Software {
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
-    const response = await fetch(`${CONFIG.API_BASE_URL}/api/software/${params.id}`);
+    console.log(`开始获取软件 ${params.id} 的数据`);
+    const response = await fetch(`${CONFIG.API_BASE_URL}/software/${params.id}`);
     if (!response.ok) {
+      console.error(`API请求失败，状态码: ${response.status}`);
       throw new Error(`API request failed with status ${response.status}`);
     }
-    return json(await response.json());
+    const data = await response.json();
+    console.log(`成功获取软件 ${params.id} 的数据`);
+    return json(data);
   } catch (error) {
     console.error('Error fetching software data:', error);
     // 返回模拟数据作为后备方案
@@ -34,6 +38,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     });
   }
 };
+
+// ... 其余代码保持不变
 
 export default function SoftwareDetail() {
   const software = useLoaderData<Software>();

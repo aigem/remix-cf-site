@@ -1,7 +1,7 @@
 export async function onRequest(context) {
     const { request } = context;
     const url = new URL(request.url);
-    const id = url.pathname.split('/').pop();
+    const path = url.pathname;
 
     const softwareData = [
         {
@@ -36,19 +36,26 @@ export async function onRequest(context) {
             features: ["特性15", "特性25", "特性35"],
             downloadLink: "https://example.com/download/15"
         }
-        // 添加更多软件...
     ];
 
-    const software = softwareData.find(s => s.id === id);
-
-    if (software) {
-        return new Response(JSON.stringify(software), {
+    if (path === '/api/software') {
+        // 返回所有软件
+        return new Response(JSON.stringify(softwareData), {
             headers: { "Content-Type": "application/json" },
         });
     } else {
-        return new Response(JSON.stringify({ error: "Software not found" }), {
-            status: 404,
-            headers: { "Content-Type": "application/json" },
-        });
+        // 处理单个软件请求
+        const id = path.split('/').pop();
+        const software = softwareData.find(s => s.id === id);
+        if (software) {
+            return new Response(JSON.stringify(software), {
+                headers: { "Content-Type": "application/json" },
+            });
+        } else {
+            return new Response(JSON.stringify({ error: "Software not found" }), {
+                status: 404,
+                headers: { "Content-Type": "application/json" },
+            });
+        }
     }
 }
