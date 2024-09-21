@@ -14,11 +14,16 @@ interface Software {
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const response = await fetch(`/api/software/${params.id}`);
-  if (!response.ok) {
-    throw new Response("软件不存在", { status: 404 });
-  }
-  return json(await response.json() as Software);
+  // 模拟 API 请求
+  const softwareData = {
+    id: params.id,
+    title: `软件 ${params.id}`,
+    description: `这是软件 ${params.id} 的详细描述。`,
+    icon: `/icons/software${params.id}.svg`,
+    features: ["特性1", "特性2", "特性3"],
+    downloadLink: `https://example.com/download/${params.id}`
+  };
+  return json(softwareData);
 };
 
 export default function SoftwareDetail() {
