@@ -1,8 +1,9 @@
 import { MetaFunction } from "@remix-run/cloudflare";
+import { CONFIG } from "config";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "联系我们 - 软件展示网站" },
+        { title: "联系我们 - {CONFIG.SITE_NAME}" },
         { name: "description", content: "与我们取得联系" },
     ];
 };
@@ -15,7 +16,7 @@ export default function Contact() {
                 如果您有任何问题或建议,请随时与我们联系。
             </p>
             <p className="mt-2 text-lg text-gray-500 dark:text-gray-300">
-                邮箱: contact@example.com
+                邮箱: {CONFIG.CONTACT_EMAIL}
             </p>
         </div>
     );

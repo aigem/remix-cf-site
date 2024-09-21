@@ -2,8 +2,11 @@ import { SoftwareCard } from "~/components/SoftwareCard";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import { useMemo } from "react";
+import { json, LoaderFunction } from "@remix-run/cloudflare";
+import { CONFIG } from "config";
 
 interface Software {
+
   id: string;
   title: string;
   description: string;
@@ -11,12 +14,20 @@ interface Software {
 }
 
 export const loader: LoaderFunction = async () => {
-  // 这里应该从 API 获取数据
-  return [
-    { id: "1", title: "软件1", description: "这是一款功能强大的软件，可以帮助用户提高工作效率。", icon: "/icons/software1.svg" },
-    { id: "2", title: "软件2", description: "软件2是一款适用于各种场景的强大工具。", icon: "/icons/software2.svg" },
-    { id: "3", title: "软件3", description: "软件3为用户提供了创新的解决方案。", icon: "/icons/software3.svg" },
-  ] as Software[];
+  try {
+    const response = await fetch(`${CONFIG.API_BASE_URL}/software`);
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+    return json(await response.json());
+  } catch (error) {
+    console.error('Error fetching software data:', error);
+    return json([
+      { id: "1", title: "软件1", description: "这是一款功能强大的软件，可以帮助用户提高工作效率。", icon: "/icons/software1.svg" },
+      { id: "2", title: "软件2", description: "软件2是一款适用于各种场景的强大工具。", icon: "/icons/software2.svg" },
+      { id: "3", title: "软件3", description: "软件3为用户提供了创新的解决方案。", icon: "/icons/software3.svg" },
+    ]);
+  }
 };
 
 export default function Index() {

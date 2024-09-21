@@ -1,10 +1,10 @@
-# 软件展示网站
+# 内容展示网站
 
-这是一个使用Remix框架和Cloudflare Pages部署的软件展示网站。
+这是一个使用 Remix 框架和 Cloudflare Pages 部署的内容展示网站。
 
 ## 项目概述
 
-该项目是一个基于Remix框架的应用，用于展示和介绍各种软件产品。它使用Cloudflare Pages进行部署，利用了Tailwind CSS进行样式设计，并配置了TypeScript以提供类型安全。
+该项目是一个基于 Remix 框架的应用,用于展示和介绍各种软件产品。它使用 Cloudflare Pages 进行部署,利用了 Tailwind CSS 进行样式设计,并配置了 TypeScript 以提供类型安全。
 
 ## 主要特性
 
@@ -12,10 +12,18 @@
 - 软件列表展示
 - 详细的软件介绍页面
 - 响应式布局
-- Remix框架
-- Cloudflare Pages部署
-- Tailwind CSS样式
-- TypeScript支持
+- 国际化支持
+- 深色模式
+- SEO 优化
+
+## 技术栈
+
+- Remix
+- React
+- TypeScript
+- Tailwind CSS
+- Cloudflare Pages
+- i18next
 
 ## 开发环境设置
 
@@ -35,7 +43,7 @@
    ```
    npm run build
    ```
-2. 部署到Cloudflare Pages：
+2. 部署到 Cloudflare Pages：
    ```
    npm run deploy
    ```
@@ -44,62 +52,19 @@
 
 - `/app`: 包含应用程序的主要源代码
 - `/public`: 静态资源文件
-- `/functions`: Cloudflare Pages函数
+- `/functions`: Cloudflare Pages 函数
 
-## 主要文件说明
+## 配置
 
-- `app/root.tsx`: 应用程序的根组件
-- `app/routes/_index.tsx`: 主页路由
-- `app/tailwind.css`: Tailwind CSS配置
-- `vite.config.ts`: Vite构建配置
-- `wrangler.toml`: Cloudflare Wrangler配置
+项目配置位于 `app/config.ts` 文件中。您可以在此文件中修改网站名称、描述等全局设置。
 
-## 脚本命令
+## 国际化
 
+本项目使用 i18next 进行国际化。翻译文件位于 `app/locales` 目录下。
 
-```6:14:remix-cf/package.json
-  "scripts": {
-    "build": "remix vite:build",
-    "deploy": "wrangler pages deploy ./build/client",
-    "dev": "remix vite:dev",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "wrangler pages dev ./build/client",
-    "typecheck": "tsc",
-    "typegen": "wrangler types"
-  },
-```
+## API
 
-
-## 依赖项
-
-主要依赖项包括：
-
-- @remix-run/cloudflare
-- @remix-run/react
-- react
-- react-dom
-- tailwindcss
-
-开发依赖项包括：
-
-- @cloudflare/workers-types
-- @remix-run/dev
-- typescript
-- vite
-- wrangler
-
-## 配置文件
-
-- `.eslintrc.cjs`: ESLint配置
-- `tsconfig.json`: TypeScript配置
-- `tailwind.config.ts`: Tailwind CSS配置
-- `postcss.config.js`: PostCSS配置
-
-## 注意事项
-
-- 确保Node.js版本 >= 20.0.0
-- 运行`npm run typegen`以生成Cloudflare绑定的类型
-- 修改`wrangler.toml`后需要重新运行typegen
+API 响应由 Cloudflare Workers 处理,位于 `functions/api` 目录下。
 
 ## 贡献
 

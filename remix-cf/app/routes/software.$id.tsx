@@ -3,6 +3,7 @@ import { json, LoaderFunction } from "@remix-run/cloudflare";
 import { CheckCircleIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { CommentSection } from "~/components/CommentSection";
+import { CONFIG } from "config";
 
 interface Software {
   id: string;
@@ -14,16 +15,11 @@ interface Software {
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
-  // 模拟 API 请求
-  const softwareData = {
-    id: params.id,
-    title: `软件 ${params.id}`,
-    description: `这是软件 ${params.id} 的详细描述。`,
-    icon: `/icons/software${params.id}.svg`,
-    features: ["特性1", "特性2", "特性3"],
-    downloadLink: `https://example.com/download/${params.id}`
-  };
-  return json(softwareData);
+  const response = await fetch(`${CONFIG.API_BASE_URL}/software/${params.id}`);
+  if (!response.ok) {
+    throw new Response("软件不存在", { status: 404 });
+  }
+  return json(await response.json());
 };
 
 export default function SoftwareDetail() {

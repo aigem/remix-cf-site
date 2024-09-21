@@ -16,15 +16,17 @@ import "./i18n";
 import { useState, useEffect, useCallback } from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { LoadingIndicator } from "./components/LoadingIndicator";
+import { CONFIG } from "config";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
   { rel: "stylesheet", href: patternStyles },
+  { rel: "icon", href: `${CONFIG.PATHS.ASSETS}/favicon.ico` },
 ];
 
 export const meta: MetaFunction = () => [
-  { title: "软件展示网站" },
-  { name: "description", content: "探索我们精选的软件产品，提升您的工作效率和创新能力。" },
+  { title: CONFIG.SITE_NAME },
+  { name: "description", content: CONFIG.SITE_DESCRIPTION },
 ];
 
 export default function App() {
@@ -44,7 +46,7 @@ export default function App() {
   }, [darkMode]);
 
   return (
-    <html lang="zh" className={`h-full ${darkMode ? 'dark' : ''}`}>
+    <html lang={CONFIG.DEFAULT_LANGUAGE} className={`${isDarkMode ? 'dark' : ''} ${highContrast ? 'high-contrast' : ''}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

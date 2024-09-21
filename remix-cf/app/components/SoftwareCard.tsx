@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import { CONFIG } from "config";
 
 interface SoftwareCardProps {
   id: string;
@@ -11,8 +12,8 @@ interface SoftwareCardProps {
 
 export function SoftwareCard({ id, title, description, icon }: SoftwareCardProps) {
   return (
-    <Link 
-      to={`/software/${id}`} 
+    <Link
+      to={`${CONFIG.PATHS.SOFTWARE}/${id}`}
       aria-label={`了解更多关于${title}的信息`}
       className="block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
     >
