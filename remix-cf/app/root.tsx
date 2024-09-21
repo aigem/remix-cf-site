@@ -13,7 +13,7 @@ import patternStyles from "./styles/patterns.css?url";
 import { ContrastProvider } from "~/contexts/ContrastContext";
 import { useTranslation } from "react-i18next";
 import "./i18n";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { LoadingIndicator } from "./components/LoadingIndicator";
 
@@ -30,12 +30,16 @@ export const meta: MetaFunction = () => [
 export default function App() {
   const { t } = useTranslation();
   const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = useCallback(() => setDarkMode(prev => !prev), []);
 
   useEffect(() => {
+    const root = window.document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      root.style.colorScheme = 'dark';
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
+      root.style.colorScheme = 'light';
     }
   }, [darkMode]);
 
@@ -48,7 +52,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-full bg-white dark:bg-gray-900 transition-colors duration-300">
+      <body className="h-full bg-white dark:bg-gray-900 transition-colors duration-300 ease-in-out">
         <ContrastProvider>
           <LoadingIndicator />
           <div className="min-h-full">
@@ -73,7 +77,7 @@ export default function App() {
                     </div>
                   </div>
                   <button
-                    onClick={() => setDarkMode(!darkMode)}
+                    onClick={toggleDarkMode}
                     className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
                   >
                     {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
@@ -102,5 +106,14 @@ export default function App() {
         </ContrastProvider>
       </body>
     </html>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className="text-center py-10">
+      <h1 className="text-2xl font-bold text-red-600">出错了</h1>
+      <p className="mt-4 text-gray-600">{error.message}</p>
+    </div>
   );
 }

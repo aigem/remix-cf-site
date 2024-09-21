@@ -1,28 +1,22 @@
 import { SoftwareCard } from "~/components/SoftwareCard";
-import type { MetaFunction } from "@remix-run/cloudflare";
+import { useLoaderData, useTransition } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { useMemo } from "react";
 
-export const meta: MetaFunction = () => [
-  { title: "软件展示网站 - 首页" },
-  { name: "description", content: "探索我们精选的软件产品，提升您的工作效率和创新能力。" },
-];
-
-export function links() {
+export const loader: LoaderFunction = async () => {
+  // 这里应该从 API 获取数据
   return [
-    {
-      rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
-    },
+    { id: "1", title: "软件1", description: "这是一款功能强大的软件，可以帮助用户提高工作效率。", icon: "/icons/software1.svg" },
+    { id: "2", title: "软件2", description: "软件2是一款适用于各种场景的强大工具。", icon: "/icons/software2.svg" },
+    { id: "3", title: "软件3", description: "软件3为用户提供了创新的解决方案。", icon: "/icons/software3.svg" },
   ];
-}
-
-const softwareList = [
-  { id: "1", title: "软件1", description: "这是一款功能强大的软件，可以帮助用户提高工作效率。", icon: "/icons/software1.svg" },
-  { id: "2", title: "软件2", description: "软件2是一款适用于各种场景的强大工具。", icon: "/icons/software2.svg" },
-  { id: "3", title: "软件3", description: "软件3为用户提供了创新的解决方案。", icon: "/icons/software3.svg" },
-];
+};
 
 export default function Index() {
-  const jsonLd = {
+  const softwareList = useLoaderData<typeof loader>();
+  const transition = useTransition();
+
+  const jsonLd = useMemo(() => ({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "软件展示网站",
@@ -32,7 +26,7 @@ export default function Index() {
       "target": "https://yourdomain.com/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
-  };
+  }), []);
 
   return (
     <>
@@ -48,11 +42,17 @@ export default function Index() {
             </p>
           </div>
           <div className="mt-16">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {softwareList.map((software) => (
-                <SoftwareCard key={software.id} {...software} />
-              ))}
-            </div>
+            {transition.state === "loading" ? (
+              <div className="text-center">
+                <p className="text-xl text-gray-500">加载中...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {softwareList.map((software) => (
+                  <SoftwareCard key={software.id} {...software} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useParams, Link, useLoaderData } from "@remix-run/react";
+import { useParams, Link, useLoaderData, useCatch, useTransition } from "@remix-run/react";
 import { json, LoaderFunction } from "@remix-run/cloudflare";
 import { CheckCircleIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
@@ -14,6 +14,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function SoftwareDetail() {
   const software = useLoaderData<typeof loader>();
+  const transition = useTransition();
+
+  if (transition.state === "loading") {
+    return <div className="text-center py-10">加载中...</div>;
+  }
 
   return (
     <motion.div
@@ -71,5 +76,24 @@ export default function SoftwareDetail() {
         </Link>
       </div>
     </motion.div>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  return (
+    <div className="text-center py-10">
+      <h1 className="text-2xl font-bold text-red-600">{caught.status} {caught.statusText}</h1>
+      <p className="mt-4 text-gray-600">{caught.data}</p>
+    </div>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className="text-center py-10">
+      <h1 className="text-2xl font-bold text-red-600">出错了</h1>
+      <p className="mt-4 text-gray-600">{error.message}</p>
+    </div>
   );
 }
