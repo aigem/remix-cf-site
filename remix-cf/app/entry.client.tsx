@@ -5,8 +5,11 @@ import i18next from "i18next";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
-import { getInitialNamespaces } from "remix-i18next";
+
 import { CONFIG } from "config";
+
+const Backend = await import("i18next-http-backend").then((module) => module.default);
+const { getInitialNamespaces } = await import("remix-i18next");
 
 async function hydrate() {
     await i18next
