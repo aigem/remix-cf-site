@@ -4,8 +4,7 @@ export const CONFIG = {
     API_BASE_URL: "https://remix-cf-site-8hm.pages.dev/api",
     CONTACT_EMAIL: "aitips@outlook.com",
 
-    DEFAULT_LANGUAGE: "zh",
-    SUPPORTED_LANGUAGES: ["zh", "en"],
+    // 移除语言相关配置
     PAGINATION: {
         ITEMS_PER_PAGE: 6,
         MAX_PAGES: 5,

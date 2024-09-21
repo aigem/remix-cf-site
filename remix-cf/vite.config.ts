@@ -16,10 +16,5 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
-  ],
-  build: {
-    rollupOptions: {
-      external: ['i18next-http-backend', 'remix-i18next']
-    }
-  }
+  ]
 });
