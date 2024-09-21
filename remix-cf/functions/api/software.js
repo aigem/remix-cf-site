@@ -39,12 +39,10 @@ export async function onRequest(context) {
     ];
 
     if (path === '/api/software') {
-        // 返回所有软件
         return new Response(JSON.stringify(softwareData), {
             headers: { "Content-Type": "application/json" },
         });
-    } else {
-        // 处理单个软件请求
+    } else if (path.startsWith('/api/software/')) {
         const id = path.split('/').pop();
         const software = softwareData.find(s => s.id === id);
         if (software) {
@@ -57,5 +55,10 @@ export async function onRequest(context) {
                 headers: { "Content-Type": "application/json" },
             });
         }
+    } else {
+        return new Response(JSON.stringify({ error: "Invalid API route" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+        });
     }
 }

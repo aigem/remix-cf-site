@@ -13,7 +13,6 @@ interface Software {
 
 export const loader: LoaderFunction = async ({ context }) => {
   try {
-    const { env } = context.cloudflare;
     console.log('开始获取软件数据');
     const response = await fetch(`${CONFIG.API_BASE_URL}/software`);
     if (!response.ok) {
@@ -33,8 +32,6 @@ export const loader: LoaderFunction = async ({ context }) => {
     ]);
   }
 };
-
-// ... 其余代码保持不变
 
 export default function Index() {
   const softwareList = useLoaderData<Software[]>();
