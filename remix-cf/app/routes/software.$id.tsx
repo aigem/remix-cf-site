@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    console.log(`成功获取软件 ${params.id} 的数据`);
+    console.log(`成功获取软件 ${params.id} 的数据`, data);
     return json(data);
   } catch (error) {
     console.error('Error fetching software data:', error);
