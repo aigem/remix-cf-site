@@ -20,6 +20,9 @@ export const loader: LoaderFunction = async ({ params }) => {
     const response = await fetch(`${CONFIG.API_BASE_URL}/software/${params.id}`);
     if (!response.ok) {
       console.error(`API请求失败，状态码: ${response.status}`);
+      if (response.status === 404) {
+        throw new Response("软件未找到", { status: 404 });
+      }
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
@@ -27,7 +30,10 @@ export const loader: LoaderFunction = async ({ params }) => {
     return json(data);
   } catch (error) {
     console.error('Error fetching software data:', error);
-    throw new Response("软件未找到", { status: 404 });
+    if (error instanceof Response) {
+      throw error;
+    }
+    throw new Response("获取软件数据时出错", { status: 500 });
   }
 };
 

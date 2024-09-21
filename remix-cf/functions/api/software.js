@@ -44,7 +44,7 @@ export async function onRequest(context) {
         });
     } else if (path.startsWith('/api/software/')) {
         const id = path.split('/').pop();
-        const software = softwareData.find(s => s.id === id);
+        const software = softwareData.find(s => String(s.id) === String(id));
         if (software) {
             return new Response(JSON.stringify(software), {
                 headers: { "Content-Type": "application/json" },
