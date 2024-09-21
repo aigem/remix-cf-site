@@ -1,11 +1,15 @@
 export async function onRequest(context) {
+    const { request } = context;
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop();
+
     const softwareData = [
         {
             id: "1",
             title: "软件1",
             description: "这是软件1的详细描述...",
             icon: "/icons/software1.svg",
-            features: ["特性1", "特性2", "特性3"],
+            features: ["特性11", "特性12", "特性13"],
             downloadLink: "https://example.com/download/1"
         },
         {
@@ -35,7 +39,16 @@ export async function onRequest(context) {
         // 添加更多软件...
     ];
 
-    return new Response(JSON.stringify(softwareData), {
-        headers: { "Content-Type": "application/json" },
-    });
+    const software = softwareData.find(s => s.id === id);
+
+    if (software) {
+        return new Response(JSON.stringify(software), {
+            headers: { "Content-Type": "application/json" },
+        });
+    } else {
+        return new Response(JSON.stringify({ error: "Software not found" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+        });
+    }
 }

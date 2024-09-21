@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   try {
     const response = await fetch(`${CONFIG.API_BASE_URL}/software/${params.id}`);
     if (!response.ok) {
-      throw new Response("软件不存在", { status: 404 });
+      throw new Error(`API request failed with status ${response.status}`);
     }
     return json(await response.json());
   } catch (error) {
@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     return json({
       id: params.id,
       title: `软件 ${params.id}`,
-      description: "这是一个示例软件描述。",
+      description: "这是一个示例软件描述。由于无法从API获取数据，我们显示了这个后备信息。",
       icon: "/icons/default-software.svg",
       features: ["特性1", "特性2", "特性3"],
       downloadLink: "#"
