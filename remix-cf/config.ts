@@ -1,12 +1,12 @@
 export const CONFIG = {
     SITE_NAME: "独门TVBOX",
     SITE_DESCRIPTION: "探索我们精选的TVbox类应用工具，提升您的观影及娱乐体验。",
-    API_BASE_URL: "https://remix-cf-site-8hm.pages.dev/api",
+    API_BASE_URL: "/api",
     CONTACT_EMAIL: "aitips@outlook.com",
 
     // 移除语言相关配置
     PAGINATION: {
-        ITEMS_PER_PAGE: 6,
+        ITEMS_PER_PAGE: 3,
         MAX_PAGES: 5,
     },
     SOCIAL_MEDIA: {
