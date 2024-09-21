@@ -40,5 +40,6 @@ export const CONFIG = {
         ABOUT: "/about",
         CONTACT: "/contact",
         SOFTWARE: "/software",
+        API: "/api",
     },
 };
