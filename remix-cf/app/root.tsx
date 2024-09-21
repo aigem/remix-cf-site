@@ -24,18 +24,20 @@ import { I18nextProvider, initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-i18next
-  .use(initReactI18next)
-  .use(LanguageDetector)
-  .use(Backend)
-  .init({
-    supportedLngs: CONFIG.SUPPORTED_LANGUAGES,
-    fallbackLng: CONFIG.DEFAULT_LANGUAGE,
-    ns: ["common"],
-    backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
-    },
-  });
+function initI18n() {
+  i18next
+    .use(initReactI18next)
+    .use(LanguageDetector)
+    .use(Backend)
+    .init({
+      supportedLngs: CONFIG.SUPPORTED_LANGUAGES,
+      fallbackLng: CONFIG.DEFAULT_LANGUAGE,
+      ns: ["common"],
+      backend: {
+        loadPath: "/locales/{{lng}}/{{ns}}.json",
+      },
+    });
+}
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -56,6 +58,7 @@ export default function App() {
   const toggleDarkMode = useCallback(() => setIsDarkMode((prev) => !prev), []);
 
   useEffect(() => {
+    initI18n();
     const root = window.document.documentElement;
     if (isDarkMode) {
       root.classList.add('dark');
@@ -68,9 +71,10 @@ export default function App() {
 
   return (
     <I18nextProvider i18n={i18next}>
-      <html lang={CONFIG.DEFAULT_LANGUAGE} className={isDarkMode ? 'dark' : ''}>
+      <html lang="zh-CN" className={isDarkMode ? 'dark' : ''}>
         <head>
           <meta charSet="utf-8" />
+
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="robots" content="index, follow" />
           <Meta />
