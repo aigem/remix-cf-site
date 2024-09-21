@@ -17,6 +17,8 @@ import { useState, useEffect, useCallback } from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { LoadingIndicator } from "./components/LoadingIndicator";
 import { CONFIG } from "config";
+import { useMediaQuery } from "react-responsive";
+
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -30,23 +32,25 @@ export const meta: MetaFunction = () => [
 ];
 
 export default function App() {
+  const prefersDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+  const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
   const { t } = useTranslation();
-  const [darkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = useCallback(() => setDarkMode((prev: boolean) => !prev), []);
+
+  const toggleDarkMode = useCallback(() => setIsDarkMode((prev) => !prev), []);
 
   useEffect(() => {
     const root = window.document.documentElement;
-    if (darkMode) {
+    if (isDarkMode) {
       root.classList.add('dark');
       root.style.colorScheme = 'dark';
     } else {
       root.classList.remove('dark');
       root.style.colorScheme = 'light';
     }
-  }, [darkMode]);
+  }, [isDarkMode]);
 
   return (
-    <html lang={CONFIG.DEFAULT_LANGUAGE} className={`${isDarkMode ? 'dark' : ''} ${highContrast ? 'high-contrast' : ''}`}>
+    <html lang={CONFIG.DEFAULT_LANGUAGE} className={isDarkMode ? 'dark' : ''}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -82,7 +86,7 @@ export default function App() {
                     onClick={toggleDarkMode}
                     className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
                   >
-                    {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+                    {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
                   </button>
                 </div>
               </div>
@@ -111,11 +115,20 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function ErrorBoundary() {
+  const error = useRouteError();
   return (
-    <div className="text-center py-10">
-      <h1 className="text-2xl font-bold text-red-600">出错了</h1>
-      <p className="mt-4 text-gray-600">{error.message}</p>
-    </div>
+    <html>
+      <head>
+        <title>出错了</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>发生了意外错误</h1>
+        <p>{error instanceof Error ? error.message : "未知错误"}</p>
+        <Scripts />
+      </body>
+    </html>
   );
 }
