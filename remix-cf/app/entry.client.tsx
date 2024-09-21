@@ -4,14 +4,12 @@ import { hydrateRoot } from "react-dom/client";
 import i18next from "i18next";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import Backend from "i18next-http-backend";
-
 import { CONFIG } from "config";
 
-const Backend = await import("i18next-http-backend").then((module) => module.default);
-const { getInitialNamespaces } = await import("remix-i18next");
-
 async function hydrate() {
+    const Backend = await import("i18next-http-backend").then((module) => module.default);
+    const { getInitialNamespaces } = await import("remix-i18next");
+
     await i18next
         .use(initReactI18next)
         .use(LanguageDetector)
