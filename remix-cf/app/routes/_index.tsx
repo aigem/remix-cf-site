@@ -1,27 +1,28 @@
 import { SoftwareCard } from "~/components/SoftwareCard";
 import { useLoaderData, useRouteError, useNavigation } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/cloudflare";
-import { useMemo } from "react";
 import { json, LoaderFunction } from "@remix-run/cloudflare";
+import { useMemo } from "react";
 import { CONFIG } from "config";
 
 interface Software {
-
   id: string;
   title: string;
   description: string;
   icon: string;
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ context }) => {
   try {
-    const response = await fetch(`${CONFIG.API_BASE_URL}/software`);
+    const { env } = context.cloudflare;
+    const response = await fetch(`${CONFIG.API_BASE_URL}/api/software`);
     if (!response.ok) {
-      throw new Error('API request failed');
+      throw new Error(`API请求失败，状态码: ${response.status}`);
     }
-    return json(await response.json());
+    const data = await response.json();
+    return json(data);
   } catch (error) {
-    console.error('Error fetching software data:', error);
+    console.error('获取软件数据时出错:', error);
+    // 返回模拟数据作为后备方案
     return json([
       { id: "1", title: "软件1", description: "这是一款功能强大的软件，可以帮助用户提高工作效率。", icon: "/icons/software1.svg" },
       { id: "2", title: "软件2", description: "软件2是一款适用于各种场景的强大工具。", icon: "/icons/software2.svg" },
