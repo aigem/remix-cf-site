@@ -5,8 +5,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
   Link
 } from "@remix-run/react";
+
 import { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import tailwindStyles from "./styles/tailwind.css?url";
 import patternStyles from "./styles/patterns.css?url";
@@ -68,16 +70,17 @@ export default function App() {
                   <div className="flex">
                     <Link to="/" className="flex-shrink-0 flex items-center">
                       <img className="h-8 w-auto" src="/logo.svg" alt="Logo" />
-                      <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">软件展示网站</span>
+                      <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">{CONFIG.SITE_NAME}</span>
                     </Link>
                     <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                      <Link to={CONFIG.PATHS.HOME} className="...">
+                      <Link to={CONFIG.PATHS.HOME} className="text-gray-900 dark:text-white font-bold text-lg">
+
                         {t('home')}
                       </Link>
-                      <Link to={CONFIG.PATHS.ABOUT} className="...">
+                      <Link to={CONFIG.PATHS.ABOUT} className="text-gray-900 dark:text-white font-bold text-lg">
                         {t('about')}
                       </Link>
-                      <Link to={CONFIG.PATHS.CONTACT} className="...">
+                      <Link to={CONFIG.PATHS.CONTACT} className="text-gray-900 dark:text-white font-bold text-lg">
                         {t('contact')}
                       </Link>
                     </div>

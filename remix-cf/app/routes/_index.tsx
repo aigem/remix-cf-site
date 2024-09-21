@@ -1,5 +1,5 @@
 import { SoftwareCard } from "~/components/SoftwareCard";
-import { useLoaderData, useNavigation } from "@remix-run/react";
+import { useLoaderData, useRouteError, useNavigation } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import { useMemo } from "react";
 import { json, LoaderFunction } from "@remix-run/cloudflare";
