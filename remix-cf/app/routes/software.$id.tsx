@@ -16,7 +16,7 @@ interface Software {
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
-    const response = await fetch(`${CONFIG.API_BASE_URL}/software/${params.id}`);
+    const response = await fetch(`${CONFIG.API_BASE_URL}/api/software/${params.id}`);
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     }
