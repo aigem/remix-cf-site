@@ -3,7 +3,7 @@ import { CONFIG } from "config";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "联系我们 - {CONFIG.SITE_NAME}" },
+        { title: `联系我们 - ${CONFIG.SITE_NAME}` },
         { name: "description", content: "与我们取得联系" },
     ];
 };

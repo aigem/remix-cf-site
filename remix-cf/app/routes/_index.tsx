@@ -37,11 +37,11 @@ export default function Index() {
   const jsonLd = useMemo(() => ({
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "软件展示网站",
-    "url": "https://yourdomain.com",
+    "name": CONFIG.SITE_NAME,
+    "url": CONFIG.SITE_URL,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://yourdomain.com/search?q={search_term_string}",
+      "target": `${CONFIG.SITE_URL}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   }), []);

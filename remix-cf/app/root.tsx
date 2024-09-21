@@ -67,13 +67,13 @@ export default function App() {
                       <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">软件展示网站</span>
                     </Link>
                     <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                      <Link to="/" className="border-primary text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                      <Link to={CONFIG.PATHS.HOME} className="...">
                         {t('home')}
                       </Link>
-                      <Link to="/about" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                      <Link to={CONFIG.PATHS.ABOUT} className="...">
                         {t('about')}
                       </Link>
-                      <Link to="/contact" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                      <Link to={CONFIG.PATHS.CONTACT} className="...">
                         {t('contact')}
                       </Link>
                     </div>
