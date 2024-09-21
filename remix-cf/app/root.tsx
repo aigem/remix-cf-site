@@ -66,13 +66,13 @@ export default function App() {
                     </Link>
                     <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                       <Link to="/" className="border-primary text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        首页
+                        {t('home')}
                       </Link>
                       <Link to="/about" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        关于我们
+                        {t('about')}
                       </Link>
                       <Link to="/contact" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        联系我们
+                        {t('contact')}
                       </Link>
                     </div>
                   </div>
@@ -95,7 +95,7 @@ export default function App() {
             <footer className="bg-white dark:bg-gray-800">
               <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <p className="text-center text-base text-gray-500 dark:text-gray-400">
-                  &copy; 2024 软件展示网站. 保留所有权利。
+                  {t('copyright')}
                 </p>
               </div>
             </footer>
