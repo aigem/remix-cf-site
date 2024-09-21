@@ -8,8 +8,8 @@ import {
   Link
 } from "@remix-run/react";
 import { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
-import tailwindStyles from "./styles/tailwind.css";
-import patternStyles from "./styles/patterns.css";
+import tailwindStyles from "./styles/tailwind.css?url";
+import patternStyles from "./styles/patterns.css?url";
 import { ContrastProvider } from "~/contexts/ContrastContext";
 import { useTranslation } from "react-i18next";
 import "./i18n";
