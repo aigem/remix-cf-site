@@ -1,4 +1,4 @@
-import { useParams, Link, useLoaderData, useCatch, useNavigation } from "@remix-run/react";
+import { useParams, Link, useLoaderData, useRouteError, useNavigation } from "@remix-run/react";
 import { json, LoaderFunction } from "@remix-run/cloudflare";
 import { CheckCircleIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
@@ -88,21 +88,14 @@ export default function SoftwareDetail() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return (
-    <div className="text-center py-10">
-      <h1 className="text-2xl font-bold text-red-600">{caught.status} {caught.statusText}</h1>
-      <p className="mt-4 text-gray-600">{caught.data}</p>
-    </div>
-  );
-}
-
-export function ErrorBoundary({ error }: { error: Error }) {
+export function ErrorBoundary() {
+  const error = useRouteError();
   return (
     <div className="text-center py-10">
       <h1 className="text-2xl font-bold text-red-600">出错了</h1>
-      <p className="mt-4 text-gray-600">{error.message}</p>
+      <p className="mt-4 text-gray-600">
+        {error instanceof Error ? error.message : "发生了未知错误"}
+      </p>
     </div>
   );
 }
