@@ -8,8 +8,8 @@ import {
   Link
 } from "@remix-run/react";
 import { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
-import tailwindStyles from "./styles/tailwind.css?url";
-import patternStyles from "./styles/patterns.css?url";
+import tailwindStyles from "./styles/tailwind.css";
+import patternStyles from "./styles/patterns.css";
 import { ContrastProvider } from "~/contexts/ContrastContext";
 import { useTranslation } from "react-i18next";
 import "./i18n";
@@ -30,7 +30,7 @@ export const meta: MetaFunction = () => [
 export default function App() {
   const { t } = useTranslation();
   const [darkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = useCallback(() => setDarkMode(prev => !prev), []);
+  const toggleDarkMode = useCallback(() => setDarkMode((prev: boolean) => !prev), []);
 
   useEffect(() => {
     const root = window.document.documentElement;

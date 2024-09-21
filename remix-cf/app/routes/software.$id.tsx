@@ -1,22 +1,31 @@
-import { useParams, Link, useLoaderData, useCatch, useTransition } from "@remix-run/react";
+import { useParams, Link, useLoaderData, useCatch, useNavigation } from "@remix-run/react";
 import { json, LoaderFunction } from "@remix-run/cloudflare";
 import { CheckCircleIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { CommentSection } from "~/components/CommentSection";
+
+interface Software {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  features: string[];
+  downloadLink: string;
+}
 
 export const loader: LoaderFunction = async ({ params }) => {
   const response = await fetch(`/api/software/${params.id}`);
   if (!response.ok) {
     throw new Response("软件不存在", { status: 404 });
   }
-  return json(await response.json());
+  return json(await response.json() as Software);
 };
 
 export default function SoftwareDetail() {
-  const software = useLoaderData<typeof loader>();
-  const transition = useTransition();
+  const software = useLoaderData<Software>();
+  const navigation = useNavigation();
 
-  if (transition.state === "loading") {
+  if (navigation.state === "loading") {
     return <div className="text-center py-10">加载中...</div>;
   }
 
